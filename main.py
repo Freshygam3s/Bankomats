@@ -6,15 +6,26 @@ window.title("Bank")
 window.geometry("1500x800")
 window.configure(bg="purple")
 
-
-
+#variables
+PIN_var = tk.StringVar()
 #frames
+PIN_frame = tk.Frame(window, bg="purple") 
 lang_frame = tk.Frame(window)
 button_frame = tk.Frame(window)
 button_frame_1 = tk.Frame(window)
 button_frame_2 = tk.Frame(window)
 button_frame_3 = tk.Frame(window)
 
+
+#widgets
+pin_text = tk.Label(window, text = "Put in your card:", bg="purple", font="Arial 45 bold")
+PIN_label = tk.Label(PIN_frame, text = "PIN:", bg="purple", font="Arial 35 bold")
+PIN_entry = tk.Entry(PIN_frame, show="*", font="Arial 15", textvariable=PIN_var)
+
+#functions
+def enter_func():
+    PIN_val = PIN_var.get()
+    print(PIN_val)
 #buttons
 eng_btn = tk.Button(lang_frame, text="Eng")
 eng_btn.pack(side="left")
@@ -47,13 +58,15 @@ delete = tk.Button(button_frame_3, text="DEL")
 delete.pack(side="left")
 numb_0 = tk.Button(button_frame_3, text="0")
 numb_0.pack(side="left")
-Enter = tk.Button(button_frame_3, text="Enter")
+Enter = tk.Button(button_frame_3, text="Enter", command= enter_func)
 Enter.pack(side="left")
 
 # pack
 lang_frame.pack()
-pin_text = tk.Label(window, text = "Put in your card:", bg="purple", font="Arial 45 bold")
 pin_text.pack()
+PIN_label.pack(side="left")
+PIN_entry.pack(side="left")
+PIN_frame.pack()
 button_frame.pack()
 button_frame_1.pack()
 button_frame_2.pack()
