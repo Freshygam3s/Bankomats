@@ -6,16 +6,22 @@ window.title("Bank")
 window.geometry("1500x800")
 window.configure(bg="purple")
 
-pin_text = tk.Label(window, text = "Put in your card:", bg="purple", font="Arial 45 bold")
-pin_text.pack()
+
 
 #frames
+lang_frame = tk.Frame(window)
 button_frame = tk.Frame(window)
 button_frame_1 = tk.Frame(window)
 button_frame_2 = tk.Frame(window)
 button_frame_3 = tk.Frame(window)
 
 #buttons
+eng_btn = tk.Button(lang_frame, text="Eng")
+eng_btn.pack(side="left")
+lv_btn = tk.Button(lang_frame, text="Lv")
+lv_btn.pack(side="left")
+rus_btn = tk.Button(lang_frame, text="Rus")
+rus_btn.pack(side="left")
 numb_1 = tk.Button(button_frame, text="1")
 numb_1.pack(side="left")
 numb_2 = tk.Button(button_frame, text="2")
@@ -44,7 +50,10 @@ numb_0.pack(side="left")
 Enter = tk.Button(button_frame_3, text="Enter")
 Enter.pack(side="left")
 
-#frames pack
+# pack
+lang_frame.pack()
+pin_text = tk.Label(window, text = "Put in your card:", bg="purple", font="Arial 45 bold")
+pin_text.pack()
 button_frame.pack()
 button_frame_1.pack()
 button_frame_2.pack()
