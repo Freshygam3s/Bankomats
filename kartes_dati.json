@@ -1,1 +1,5 @@
-kartes_dati = {PIN:1234, Name:"Reinis", Bilance:1234}
+{
+  "PIN": 1234,
+  "Name": "Reinis",
+  "Bilance": 1234
+}
