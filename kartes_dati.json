@@ -1,1 +1,1 @@
-{"PIN": 1234}
+kartes_dati = {PIN:1234, Name:"Reinis", Bilance:1234.00}
