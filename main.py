@@ -28,6 +28,8 @@ def enter_func():
     print(PIN_val)
 
 #flags
+photo_eng = tk.PhotoImage(file = "/images/eng.webp")
+photoimage = photo_eng.subsample(3, 3)
 
 #buttons
 eng_btn = tk.Button(lang_frame, text="Eng", image="photoimage")
