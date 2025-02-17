@@ -26,6 +26,9 @@ PIN_entry = tk.Entry(PIN_frame, show="*", font="Arial 15", textvariable=PIN_var)
 def enter_func():
     PIN_val = PIN_var.get()
     print(PIN_val)
+
+#flags
+photo_eng = photoImage(file = "images/eng.webp")
 #buttons
 eng_btn = tk.Button(lang_frame, text="Eng")
 eng_btn.pack(side="left")
