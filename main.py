@@ -1,6 +1,12 @@
 import tkinter as tk
 from tkinter.ttk import *
+import json
 
+#json
+with open('kartes_dati.json', 'r') as file:
+    data = json.load(file)
+print(data)
+    
 #window
 window = tk.Tk()
 window.title("Bank")
