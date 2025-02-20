@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter.ttk import *
+from PIL import Image, ImageTk
 import json
 
 #json
@@ -35,15 +36,25 @@ def enter_func():
     print(PIN_val)
 
 #flags
-photo_eng = tk.PhotoImage(file = "images/eng.webp")
-photoimage = photo_eng.subsample(3, 3)
+image = Image.open('C:/Users/User/Desktop/29.grupa/Bankomats/images/eng.png')
+image = image.resize((50, 30), Image.ANTIALIAS)
+photo = ImageTk.PhotoImage(image)
+
+image2 = Image.open('C:/Users/User/Desktop/29.grupa/Bankomats/images/lv.png')
+image2 = image2.resize((50, 30), Image.ANTIALIAS)
+photo2 = ImageTk.PhotoImage(image2)
+
+image3 = Image.open('C:/Users/User/Desktop/29.grupa/Bankomats/images/rus.jpeg')
+image3 = image3.resize((50, 30), Image.ANTIALIAS)
+photo3 = ImageTk.PhotoImage(image3)
+
 
 #buttons
-eng_btn = tk.Button(lang_frame, text="Eng", image= photoimage)
+eng_btn = tk.Button(lang_frame, text="ENG", image=photo, compound="center", bg="black", font="bold")
 eng_btn.pack(side="left")
-lv_btn = tk.Button(lang_frame, text="Lv")
+lv_btn = tk.Button(lang_frame, text="LV", image=photo2, compound="center", bg="black", font="bold")
 lv_btn.pack(side="left")
-rus_btn = tk.Button(lang_frame, text="Rus")
+rus_btn = tk.Button(lang_frame, text="RUS", image=photo3, compound="center", bg="black", font="bold")
 rus_btn.pack(side="left")
 numb_1 = tk.Button(button_frame, text="1",height= 5, width=10)
 numb_1.pack(side="left")
@@ -73,6 +84,7 @@ numb_0.pack(side="left")
 Enter = tk.Button(button_frame_3, text="Enter",height= 5, width=10, command= enter_func)
 Enter.pack(side="left")
 
+eng_btn.image = photo
 # pack
 lang_frame.pack()
 pin_text.pack()
