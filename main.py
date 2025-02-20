@@ -36,15 +36,15 @@ def enter_func():
     print(PIN_val)
 
 #flags
-image = Image.open('C:/Users/User/Desktop/29.grupa/Bankomats/images/eng.png')
+image = Image.open('/images/eng.png')
 image = image.resize((50, 30), Image.ANTIALIAS)
 photo = ImageTk.PhotoImage(image)
 
-image2 = Image.open('C:/Users/User/Desktop/29.grupa/Bankomats/images/lv.png')
+image2 = Image.open('/images/lv.png')
 image2 = image2.resize((50, 30), Image.ANTIALIAS)
 photo2 = ImageTk.PhotoImage(image2)
 
-image3 = Image.open('C:/Users/User/Desktop/29.grupa/Bankomats/images/rus.jpeg')
+image3 = Image.open('/images/rus.jpeg')
 image3 = image3.resize((50, 30), Image.ANTIALIAS)
 photo3 = ImageTk.PhotoImage(image3)
 
