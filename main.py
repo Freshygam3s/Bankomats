@@ -185,7 +185,7 @@ class ATMApp:
 
         self.transaction_window = tk.Toplevel(self.root)
         self.transaction_window.title("Transaction Window")
-        self.transaction_window.geometry("800x600")
+        self.transaction_window.geometry("1500x800")
         self.transaction_window.configure(bg="purple")
 
         self.transaction_window.protocol("WM_DELETE_WINDOW", self.close_transaction_window)
