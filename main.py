@@ -14,7 +14,6 @@ except FileNotFoundError:
 
 LANGUAGES = {
     "ENG": {
-        "insert_card": "Insert your card:",
         "pin": "PIN:",
         "withdraw": "Withdraw",
         "deposit": "Deposit",
@@ -35,7 +34,6 @@ LANGUAGES = {
         "view_account_info": "View Account Info",
     },
     "LV": {
-        "insert_card": "Ievietojiet savu karti:",
         "pin": "PIN:",
         "withdraw": "Izņemt naudu",
         "deposit": "Iemaksāt naudu",
@@ -56,7 +54,6 @@ LANGUAGES = {
         "view_account_info": "Skatīt konta informāciju",
     },
     "RUS": {
-        "insert_card": "Вставьте вашу карту:",
         "pin": "ПИН:",
         "withdraw": "Снять деньги",
         "deposit": "Внести деньги",
@@ -103,12 +100,10 @@ class ATMApp:
         self.button_frame_3 = tk.Frame(self.root, bg="purple")
 
     def create_widgets(self):
-        self.pin_text = tk.Label(self.root, text=LANGUAGES[self.current_language]["insert_card"], bg="purple", font=("Arial", 45, "bold"))
         self.PIN_label = tk.Label(self.PIN_frame, text=LANGUAGES[self.current_language]["pin"], bg="purple", font=("Arial", 35, "bold"))
         self.PIN_entry = tk.Entry(self.PIN_frame, show="*", font=("Arial", 15), textvariable=self.PIN_var)
 
         # Pack widgets
-        self.pin_text.pack(pady=20)
         self.PIN_label.pack(side="left", padx=10)
         self.PIN_entry.pack(side="left", padx=10)
         self.PIN_frame.pack(pady=20)
