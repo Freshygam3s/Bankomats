@@ -1,5 +1,16 @@
 {
-  "PIN": 1234,
-  "Name": "Daniels",
-  "Bilance": 2000
+  "cards": [
+      {
+          "card_number": "1234567890123456",
+          "pin": "1234",
+          "name": "Roberts Ozoliņš",
+          "balance": 1000
+      },
+      {
+          "card_number": "9876543210987654",
+          "pin": "4321",
+          "name": "Reinis Lūsiņš",
+          "balance": 500
+      }
+  ]
 }

@@ -1,101 +1,281 @@
 import tkinter as tk
-from tkinter.ttk import *
+from tkinter import messagebox, simpledialog
 from PIL import Image, ImageTk
 import json
 
-#json
-with open('Bankomats\kartes_dati.json', 'r') as file:
-    data = json.load(file)
-print(data)
-    
-#window
-window = tk.Tk()
-window.title("Bank")
-window.geometry("1500x800")
-window.configure(bg="purple")
 
-#variables
-PIN_var = tk.StringVar()
-#frames
-PIN_frame = tk.Frame(window, bg="purple") 
-lang_frame = tk.Frame(window)
-button_frame = tk.Frame(window)
-button_frame_1 = tk.Frame(window)
-button_frame_2 = tk.Frame(window)
-button_frame_3 = tk.Frame(window)
+try:
+    with open('kartes_dati.json', 'r') as file:
+        data = json.load(file)
+    print("Data loaded successfully:", data)
+except FileNotFoundError:
+    messagebox.showerror("Error", "JSON file not found!")
+    data = {"cards": []}
 
+LANGUAGES = {
+    "ENG": {
+        "insert_card": "Insert your card:",
+        "pin": "PIN:",
+        "withdraw": "Withdraw",
+        "deposit": "Deposit",
+        "check_balance": "Check Balance",
+        "exit": "Exit",
+        "success": "Success",
+        "error": "Error",
+        "invalid_pin": "Invalid PIN!",
+        "insufficient_balance": "Insufficient balance!",
+        "withdrawn": "Withdrawn ${amount}. New balance: ${balance}",
+        "deposited": "Deposited ${amount}. New balance: ${balance}",
+        "balance": "Your current balance is: ${balance}",
+        "enter_amount_withdraw": "Enter amount to withdraw:",
+        "enter_amount_deposit": "Enter amount to deposit:",
+        "account_info": "Account Information",
+        "name": "Name:",
+        "card_number": "Card Number:",
+        "view_account_info": "View Account Info",
+    },
+    "LV": {
+        "insert_card": "Ievietojiet savu karti:",
+        "pin": "PIN:",
+        "withdraw": "Izņemt naudu",
+        "deposit": "Iemaksāt naudu",
+        "check_balance": "Pārbaudīt atlikumu",
+        "exit": "Iziet",
+        "success": "Veiksmīgi",
+        "error": "Kļūda",
+        "invalid_pin": "Nepareizs PIN!",
+        "insufficient_balance": "Nepietiekams atlikums!",
+        "withdrawn": "Izņemti ${amount}. Jauns atlikums: ${balance}",
+        "deposited": "Iemaksāti ${amount}. Jauns atlikums: ${balance}",
+        "balance": "Jūsu pašreizējais atlikums ir: ${balance}",
+        "enter_amount_withdraw": "Ievadiet izņemamo summu:",
+        "enter_amount_deposit": "Ievadiet iemaksājamo summu:",
+        "account_info": "Konta informācija",
+        "name": "Vārds:",
+        "card_number": "Kartes numurs:",
+        "view_account_info": "Skatīt konta informāciju",
+    },
+    "RUS": {
+        "insert_card": "Вставьте вашу карту:",
+        "pin": "ПИН:",
+        "withdraw": "Снять деньги",
+        "deposit": "Внести деньги",
+        "check_balance": "Проверить баланс",
+        "exit": "Выйти",
+        "success": "Успех",
+        "error": "Ошибка",
+        "invalid_pin": "Неверный ПИН!",
+        "insufficient_balance": "Недостаточно средств!",
+        "withdrawn": "Снято ${amount}. Новый баланс: ${balance}",
+        "deposited": "Внесено ${amount}. Новый баланс: ${balance}",
+        "balance": "Ваш текущий баланс: ${balance}",
+        "enter_amount_withdraw": "Введите сумму для снятия:",
+        "enter_amount_deposit": "Введите сумму для внесения:",
+        "account_info": "Информация о счете",
+        "name": "Имя:",
+        "card_number": "Номер карты:",
+        "view_account_info": "Просмотреть информацию о счете",
+    }
+}
 
-#widgets
-pin_text = tk.Label(window, text = "Put in your card:", bg="purple", font="Arial 45 bold")
-PIN_label = tk.Label(PIN_frame, text = "PIN:", bg="purple", font="Arial 35 bold")
-PIN_entry = tk.Entry(PIN_frame, show="*", font="Arial 15", textvariable=PIN_var)
+class ATMApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Bank ATM")
+        self.root.geometry("1500x800")
+        self.root.configure(bg="purple")
 
-#functions
-def enter_func():
-    PIN_val = PIN_var.get()
-    print(PIN_val)
+        self.PIN_var = tk.StringVar()
+        self.current_card = None
+        self.transaction_window = None
+        self.current_language = "ENG"
 
-#flags
-image = Image.open('/images/eng.png')
-image = image.resize((50, 30), Image.ANTIALIAS)
-photo = ImageTk.PhotoImage(image)
+        self.create_frames()
+        self.create_widgets()
+        self.create_buttons()
 
-image2 = Image.open('/images/lv.png')
-image2 = image2.resize((50, 30), Image.ANTIALIAS)
-photo2 = ImageTk.PhotoImage(image2)
+    def create_frames(self):
+        self.PIN_frame = tk.Frame(self.root, bg="purple")
+        self.lang_frame = tk.Frame(self.root, bg="purple")
+        self.button_frame = tk.Frame(self.root, bg="purple")
+        self.button_frame_1 = tk.Frame(self.root, bg="purple")
+        self.button_frame_2 = tk.Frame(self.root, bg="purple")
+        self.button_frame_3 = tk.Frame(self.root, bg="purple")
 
-image3 = Image.open('/images/rus.jpeg')
-image3 = image3.resize((50, 30), Image.ANTIALIAS)
-photo3 = ImageTk.PhotoImage(image3)
+    def create_widgets(self):
+        self.pin_text = tk.Label(self.root, text=LANGUAGES[self.current_language]["insert_card"], bg="purple", font=("Arial", 45, "bold"))
+        self.PIN_label = tk.Label(self.PIN_frame, text=LANGUAGES[self.current_language]["pin"], bg="purple", font=("Arial", 35, "bold"))
+        self.PIN_entry = tk.Entry(self.PIN_frame, show="*", font=("Arial", 15), textvariable=self.PIN_var)
 
+        # Pack widgets
+        self.pin_text.pack(pady=20)
+        self.PIN_label.pack(side="left", padx=10)
+        self.PIN_entry.pack(side="left", padx=10)
+        self.PIN_frame.pack(pady=20)
 
-#buttons
-eng_btn = tk.Button(lang_frame, text="ENG", image=photo, compound="center", bg="black", font="bold")
-eng_btn.pack(side="left")
-lv_btn = tk.Button(lang_frame, text="LV", image=photo2, compound="center", bg="black", font="bold")
-lv_btn.pack(side="left")
-rus_btn = tk.Button(lang_frame, text="RUS", image=photo3, compound="center", bg="black", font="bold")
-rus_btn.pack(side="left")
-numb_1 = tk.Button(button_frame, text="1",height= 5, width=10)
-numb_1.pack(side="left")
-numb_2 = tk.Button(button_frame, text="2",height= 5, width=10)
-numb_2.pack(side="left")
-numb_3 = tk.Button(button_frame, text="3",height= 5, width=10)
-numb_3.pack(side="left")
+    def create_buttons(self):
+        self.load_language_buttons()
+        self.lang_frame.pack(pady=10)
 
-numb_4 = tk.Button(button_frame_1, text="4",height= 5, width=10)
-numb_4.pack(side="left")
-numb_5 = tk.Button(button_frame_1, text="5",height= 5, width=10)
-numb_5.pack(side="left")
-numb_6 = tk.Button(button_frame_1, text="6",height= 5, width=10)
-numb_6.pack(side="left")
+        self.create_number_buttons()
+        self.button_frame.pack(pady=10)
+        self.button_frame_1.pack(pady=10)
+        self.button_frame_2.pack(pady=10)
+        self.button_frame_3.pack(pady=10)
 
-numb_7 = tk.Button(button_frame_2, text="7",height= 5, width=10)
-numb_7.pack(side="left")
-numb_8 = tk.Button(button_frame_2, text="8",height= 5, width=10)
-numb_8.pack(side="left")
-numb_9 = tk.Button(button_frame_2, text="9",height= 5, width=10)
-numb_9.pack(side="left")
+    def load_language_buttons(self):
+        try:
+            self.eng_img = self.load_image("images/eng.png", (50, 30))
+            self.lv_img = self.load_image("images/lv.png", (50, 30))
+            self.rus_img = self.load_image("images/rus.jpeg", (50, 30))
 
-delete = tk.Button(button_frame_3, text="DEL",height= 5, width=10)
-delete.pack(side="left")
-numb_0 = tk.Button(button_frame_3, text="0",height= 5, width=10)
-numb_0.pack(side="left")
-Enter = tk.Button(button_frame_3, text="Enter",height= 5, width=10, command= enter_func)
-Enter.pack(side="left")
+            self.eng_btn = tk.Button(self.lang_frame, image=self.eng_img, text="ENG", compound="center", bg="black", font="bold", command=lambda: self.switch_language("ENG"))
+            self.eng_btn.pack(side="left", padx=5)
+            self.lv_btn = tk.Button(self.lang_frame, image=self.lv_img, text="LV", compound="center", bg="black", font="bold", command=lambda: self.switch_language("LV"))
+            self.lv_btn.pack(side="left", padx=5)
+            self.rus_btn = tk.Button(self.lang_frame, image=self.rus_img, text="RUS", compound="center", bg="black", font="bold", command=lambda: self.switch_language("RUS"))
+            self.rus_btn.pack(side="left", padx=5)
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to load images: {e}")
 
-eng_btn.image = photo
-# pack
-lang_frame.pack()
-pin_text.pack()
-PIN_label.pack(side="left")
-PIN_entry.pack(side="left")
-PIN_frame.pack()
-button_frame.pack()
-button_frame_1.pack()
-button_frame_2.pack()
-button_frame_3.pack()
+    def load_image(self, path, size):
+        image = Image.open(path)
+        image = image.resize(size)
+        return ImageTk.PhotoImage(image)
 
+    def create_number_buttons(self):
+        buttons = [
+            ("1", "2", "3", self.button_frame),
+            ("4", "5", "6", self.button_frame_1),
+            ("7", "8", "9", self.button_frame_2),
+            ("DEL", "0", "Enter", self.button_frame_3)
+        ]
 
-#mainloop
-window.mainloop()
+        for row in buttons:
+            for text in row[:3]:
+                if text == "Enter":
+                    btn = tk.Button(row[3], text=text, height=5, width=10, command=self.enter_func)
+                elif text == "DEL":
+                    btn = tk.Button(row[3], text=text, height=5, width=10, command=self.delete_func)
+                else:
+                    btn = tk.Button(row[3], text=text, height=5, width=10, command=lambda t=text: self.append_pin(t))
+                btn.pack(side="left", padx=5, pady=5)
+
+    def append_pin(self, value):
+        current_pin = self.PIN_var.get()
+        self.PIN_var.set(current_pin + value)
+
+    def delete_func(self):
+        current_pin = self.PIN_var.get()
+        self.PIN_var.set(current_pin[:-1])
+
+    def enter_func(self):
+        entered_pin = self.PIN_var.get()
+        print("Entered PIN:", entered_pin)
+
+        if self.validate_pin(entered_pin):
+            messagebox.showinfo(LANGUAGES[self.current_language]["success"], "PIN is correct!")
+            self.open_transaction_window()
+        else:
+            messagebox.showerror(LANGUAGES[self.current_language]["error"], LANGUAGES[self.current_language]["invalid_pin"])
+
+    def validate_pin(self, entered_pin):
+        for card in data.get("cards", []):
+            if card.get("pin") == entered_pin:
+                self.current_card = card
+                return True
+        return False
+
+    def open_transaction_window(self):
+        self.root.withdraw()
+
+        self.transaction_window = tk.Toplevel(self.root)
+        self.transaction_window.title("Transaction Window")
+        self.transaction_window.geometry("800x600")
+        self.transaction_window.configure(bg="lightblue")
+
+        self.transaction_window.protocol("WM_DELETE_WINDOW", self.close_transaction_window)
+
+        withdraw_btn = tk.Button(self.transaction_window, text=LANGUAGES[self.current_language]["withdraw"], font=("Arial", 20), command=self.withdraw)
+        withdraw_btn.pack(pady=10)
+
+        deposit_btn = tk.Button(self.transaction_window, text=LANGUAGES[self.current_language]["deposit"], font=("Arial", 20), command=self.deposit)
+        deposit_btn.pack(pady=10)
+
+        balance_btn = tk.Button(self.transaction_window, text=LANGUAGES[self.current_language]["check_balance"], font=("Arial", 20), command=self.check_balance)
+        balance_btn.pack(pady=10)
+
+        account_info_btn = tk.Button(self.transaction_window, text=LANGUAGES[self.current_language]["view_account_info"], font=("Arial", 20), command=self.show_account_info)
+        account_info_btn.pack(pady=10)
+
+        exit_btn = tk.Button(self.transaction_window, text=LANGUAGES[self.current_language]["exit"], font=("Arial", 20), command=self.close_transaction_window)
+        exit_btn.pack(pady=10)
+
+    def close_transaction_window(self):
+        self.transaction_window.destroy()
+        self.root.deiconify()
+
+    def withdraw(self):
+        amount = simpledialog.askinteger(
+            LANGUAGES[self.current_language]["withdraw"],
+            LANGUAGES[self.current_language]["enter_amount_withdraw"]
+        )
+        if amount is not None:
+            if amount > self.current_card["balance"]:
+                messagebox.showerror(LANGUAGES[self.current_language]["error"], LANGUAGES[self.current_language]["insufficient_balance"])
+            else:
+                self.current_card["balance"] -= amount
+                messagebox.showinfo(LANGUAGES[self.current_language]["success"], LANGUAGES[self.current_language]["withdrawn"].format(amount=amount, balance=self.current_card['balance']))
+
+    def deposit(self):
+        amount = simpledialog.askinteger(
+            LANGUAGES[self.current_language]["deposit"],
+            LANGUAGES[self.current_language]["enter_amount_deposit"]
+        )
+        if amount is not None:
+            self.current_card["balance"] += amount
+            messagebox.showinfo(LANGUAGES[self.current_language]["success"], LANGUAGES[self.current_language]["deposited"].format(amount=amount, balance=self.current_card['balance']))
+
+    def check_balance(self):
+        messagebox.showinfo(LANGUAGES[self.current_language]["balance"], LANGUAGES[self.current_language]["balance"].format(balance=self.current_card['balance']))
+
+    def show_account_info(self):
+        account_info_window = tk.Toplevel(self.transaction_window)
+        account_info_window.title(LANGUAGES[self.current_language]["account_info"])
+        account_info_window.geometry("400x200")
+        account_info_window.configure(bg="lightblue")
+
+        name_label = tk.Label(account_info_window, text=f"{LANGUAGES[self.current_language]['name']} {self.current_card['name']}", font=("Arial", 16), bg="lightblue")
+        name_label.pack(pady=10)
+
+        card_number_label = tk.Label(account_info_window, text=f"{LANGUAGES[self.current_language]['card_number']} {self.current_card['card_number']}", font=("Arial", 16), bg="lightblue")
+        card_number_label.pack(pady=10)
+
+        ok_button = tk.Button(account_info_window, text="OK", font=("Arial", 16), command=account_info_window.destroy)
+        ok_button.pack(pady=20)
+
+    def switch_language(self, language):
+        self.current_language = language
+        self.update_ui_text()
+
+    def update_ui_text(self):
+        self.pin_text.config(text=LANGUAGES[self.current_language]["insert_card"])
+        self.PIN_label.config(text=LANGUAGES[self.current_language]["pin"])
+        if self.transaction_window:
+            for widget in self.transaction_window.winfo_children():
+                if isinstance(widget, tk.Button):
+                    if widget["text"] == "Withdraw":
+                        widget.config(text=LANGUAGES[self.current_language]["withdraw"])
+                    elif widget["text"] == "Deposit":
+                        widget.config(text=LANGUAGES[self.current_language]["deposit"])
+                    elif widget["text"] == "Check Balance":
+                        widget.config(text=LANGUAGES[self.current_language]["check_balance"])
+                    elif widget["text"] == "View Account Info":
+                        widget.config(text=LANGUAGES[self.current_language]["view_account_info"])
+                    elif widget["text"] == "Exit":
+                        widget.config(text=LANGUAGES[self.current_language]["exit"])
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = ATMApp(root)
+    root.mainloop()
