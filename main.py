@@ -187,7 +187,7 @@ class ATMApp:
         self.transaction_window = tk.Toplevel(self.root)
         self.transaction_window.title("Transaction Window")
         self.transaction_window.geometry("800x600")
-        self.transaction_window.configure(bg="lightblue")
+        self.transaction_window.configure(bg="purple")
 
         self.transaction_window.protocol("WM_DELETE_WINDOW", self.close_transaction_window)
 
@@ -238,12 +238,12 @@ class ATMApp:
         account_info_window = tk.Toplevel(self.transaction_window)
         account_info_window.title(LANGUAGES[self.current_language]["account_info"])
         account_info_window.geometry("400x200")
-        account_info_window.configure(bg="lightblue")
+        account_info_window.configure(bg="purple")
 
-        name_label = tk.Label(account_info_window, text=f"{LANGUAGES[self.current_language]['name']} {self.current_card['name']}", font=("Arial", 16), bg="lightblue")
+        name_label = tk.Label(account_info_window, text=f"{LANGUAGES[self.current_language]['name']} {self.current_card['name']}", font=("Arial", 16), bg="purple")
         name_label.pack(pady=10)
 
-        card_number_label = tk.Label(account_info_window, text=f"{LANGUAGES[self.current_language]['card_number']} {self.current_card['card_number']}", font=("Arial", 16), bg="lightblue")
+        card_number_label = tk.Label(account_info_window, text=f"{LANGUAGES[self.current_language]['card_number']} {self.current_card['card_number']}", font=("Arial", 16), bg="purple")
         card_number_label.pack(pady=10)
 
         ok_button = tk.Button(account_info_window, text="OK", font=("Arial", 16), command=account_info_window.destroy)
@@ -254,7 +254,6 @@ class ATMApp:
         self.update_ui_text()
 
     def update_ui_text(self):
-        self.pin_text.config(text=LANGUAGES[self.current_language]["insert_card"])
         self.PIN_label.config(text=LANGUAGES[self.current_language]["pin"])
         if self.transaction_window:
             for widget in self.transaction_window.winfo_children():
