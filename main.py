@@ -166,7 +166,6 @@ class ATMApp:
 
     def enter_func(self):
         entered_pin = self.PIN_var.get()
-        print("Entered PIN:", entered_pin)
 
         if self.validate_pin(entered_pin):
             messagebox.showinfo(LANGUAGES[self.current_language]["success"], "PIN is correct!")
