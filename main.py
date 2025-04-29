@@ -154,6 +154,7 @@ class ATMApp:
                     btn = tk.Button(row[3], text=text, height=5, width=10, command=self.delete_func)
                 else:
                     btn = tk.Button(row[3], text=text, height=5, width=10, command=lambda t=text: self.append_pin(t))
+                btn.configure(bg="white", borderwidth=9)
                 btn.pack(side="left", padx=5, pady=5)
 
     def append_pin(self, value):
