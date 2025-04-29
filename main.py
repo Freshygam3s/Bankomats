@@ -187,6 +187,7 @@ class ATMApp:
         self.transaction_window = tk.Toplevel(self.root)
         self.transaction_window.title("Transaction Window")
         self.transaction_window.geometry("1500x800")
+        self.transaction_window.state("zoomed")
         self.transaction_window.configure(bg="purple")
 
         self.transaction_window.protocol("WM_DELETE_WINDOW", self.close_transaction_window)
@@ -209,6 +210,7 @@ class ATMApp:
     def close_transaction_window(self):
         self.transaction_window.destroy()
         self.root.deiconify()
+        root.state("zoomed")
 
     def withdraw(self):
         amount = simpledialog.askinteger(
@@ -271,5 +273,6 @@ class ATMApp:
 
 if __name__ == "__main__":
     root = tk.Tk()
+    root.state("zoomed")
     app = ATMApp(root)
     root.mainloop()
