@@ -91,6 +91,8 @@ class ATMApp:
         self.create_widgets()
         self.create_buttons()
 
+        self.attempts = 0
+
     def create_frames(self):
         self.PIN_frame = tk.Frame(self.root, bg="purple")
         self.lang_frame = tk.Frame(self.root, bg="purple")
@@ -165,15 +167,20 @@ class ATMApp:
         current_pin = self.PIN_var.get()
         self.PIN_var.set(current_pin[:-1])
 
-    def enter_func(self):
+   def enter_func(self):
         entered_pin = self.PIN_var.get()
-
+        MAX_ATTEMPTS = 3
         if self.validate_pin(entered_pin):
             messagebox.showinfo(LANGUAGES[self.current_language]["success"], "PIN is correct!")
+            self.attempts = 0
             self.open_transaction_window()
         else:
+            self.attempts += 1
             messagebox.showerror(LANGUAGES[self.current_language]["error"], LANGUAGES[self.current_language]["invalid_pin"])
-
+            if self.attempts>=MAX_ATTEMPTS:
+              messagebox.showerror("Error", "Too many incorrect attempts. Exiting.")
+              root.destroy()
+                
     def validate_pin(self, entered_pin):
         for card in data.get("cards", []):
             if card.get("pin") == entered_pin:
