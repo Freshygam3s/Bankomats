@@ -209,6 +209,7 @@ class ATMApp:
 
     def close_transaction_window(self):
         self.transaction_window.destroy()
+        self.PIN_var.set("")
         self.root.deiconify()
         root.state("zoomed")
 
