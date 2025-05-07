@@ -32,6 +32,7 @@ LANGUAGES = {
         "name": "Name:",
         "card_number": "Card Number:",
         "view_account_info": "View Account Info",
+        "Wrong": "Too many incorrect attempts. Exiting.",
     },
     "LV": {
         "pin": "PIN:",
@@ -52,6 +53,7 @@ LANGUAGES = {
         "name": "Vārds:",
         "card_number": "Kartes numurs:",
         "view_account_info": "Skatīt konta informāciju",
+        "Wrong": "Pārāk daudz nepareizi Pin. Aizverās.",
     },
     "RUS": {
         "pin": "ПИН:",
@@ -72,6 +74,7 @@ LANGUAGES = {
         "name": "Имя:",
         "card_number": "Номер карты:",
         "view_account_info": "Просмотреть информацию о счете",
+        "Wrong": "Слишком много неверных попыток. Выход из системы.",
     }
 }
 
@@ -178,7 +181,7 @@ class ATMApp:
             self.attempts += 1
             messagebox.showerror(LANGUAGES[self.current_language]["error"], LANGUAGES[self.current_language]["invalid_pin"])
             if self.attempts>=MAX_ATTEMPTS:
-              messagebox.showerror("Error", "Too many incorrect attempts. Exiting.")
+              messagebox.showerror(LANGUAGES[self.current_language]["error"],LANGUAGES[self.current_language]["Wrong"])
               root.destroy()
                 
     def validate_pin(self, entered_pin):
