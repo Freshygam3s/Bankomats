@@ -163,7 +163,7 @@ class ATMApp:
 
     def append_pin(self, value):
         current_pin = self.PIN_var.get()
-        if (current_pin) < 4:
+        if len(current_pin) < 4:
             self.PIN_var.set(current_pin + value)
 
     def delete_func(self):
