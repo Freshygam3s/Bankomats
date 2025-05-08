@@ -251,12 +251,12 @@ class ATMApp:
         account_info_window = tk.Toplevel(self.transaction_window)
         account_info_window.title(LANGUAGES[self.current_language]["account_info"])
         account_info_window.geometry("400x200")
-        account_info_window.configure(bg="purple")
+        account_info_window.configure(bg="lightblue")
 
-        name_label = tk.Label(account_info_window, text=f"{LANGUAGES[self.current_language]['name']} {self.current_card['name']}", font=("Arial", 16), bg="purple")
+        name_label = tk.Label(account_info_window, text=f"{LANGUAGES[self.current_language]['name']} {self.current_card['name']}", font=("Arial", 16), bg="lightblue")
         name_label.pack(pady=10)
 
-        card_number_label = tk.Label(account_info_window, text=f"{LANGUAGES[self.current_language]['card_number']} {self.current_card['card_number']}", font=("Arial", 16), bg="purple")
+        card_number_label = tk.Label(account_info_window, text=f"{LANGUAGES[self.current_language]['card_number']} {self.current_card['card_number']}", font=("Arial", 16), bg="lightblue")
         card_number_label.pack(pady=10)
 
         ok_button = tk.Button(account_info_window, text="OK", font=("Arial", 16), command=account_info_window.destroy)
