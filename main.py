@@ -170,7 +170,7 @@ class ATMApp:
         current_pin = self.PIN_var.get()
         self.PIN_var.set(current_pin[:-1])
 
-   def enter_func(self):
+    def enter_func(self):
         entered_pin = self.PIN_var.get()
         MAX_ATTEMPTS = 3
         if self.validate_pin(entered_pin):
