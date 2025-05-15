@@ -15,3 +15,12 @@ Izvēles ekrānā jums ir iespēja izvēlēties kādu no darbībām ko gribat ve
 
 Izņemt naudu poga jums ļaus ievadīt naudas sumu kuru vēlaties izņemt no kartē esošās balances.
 ![Image](https://github.com/user-attachments/assets/bab4db23-a9bf-4ee5-b453-5fe40d29eec1)
+
+Iemaksāt naudu poga jums ļaus ievadīt naudas sumu kuru vēlaties iemaksāt savā bankas kontā.
+![image](https://github.com/user-attachments/assets/ff0afe06-b604-4014-8942-b9097107998d)
+
+Pārbaudīt atlikumu poga jums ļaus apskatīt naudas daudzumu kas jums pašlaik atrodas bankas kontā.
+![Image](https://github.com/user-attachments/assets/25d3fbdb-cebb-4f9e-8759-d3d0e4ebbb27)
+
+Iziet pogu uzspiežot jūs iziesiet no sava bankas konta.
+
