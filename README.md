@@ -22,5 +22,7 @@ Iemaksāt naudu poga jums ļaus ievadīt naudas sumu kuru vēlaties iemaksāt sa
 Pārbaudīt atlikumu poga jums ļaus apskatīt naudas daudzumu kas jums pašlaik atrodas bankas kontā.
 ![Image](https://github.com/user-attachments/assets/25d3fbdb-cebb-4f9e-8759-d3d0e4ebbb27)
 
+Uzspiežot Konta informācija pogu tiks parādīts kartes īpašnieka vārds un kartes numurs.
+
 Iziet pogu uzspiežot jūs iziesiet no sava bankas konta.
 
